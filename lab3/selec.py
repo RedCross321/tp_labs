@@ -1,25 +1,44 @@
+import time
+
 class Sort:
     def __init__(self):
-        pass
+        self.masnum = []
+        self.masstr = []
+
     def select_sort(self, A):
-        for i in range(len(A) - 1):
+        for i in A:
+            try:
+                i = int(i)
+                self.masnum.append(i)
+            except:
+                self.masstr.append(i)
+            # self.masstr.append(i) if type(i) == str else self.masnum.append(i)
+        return(self.sort(self.masnum) + self.sort(self.masstr))
+
+    def sort(self, mas):
+        for i in range(len(mas) - 1):
             min_index = i
-            for k in range(i + 1, len(A)):
-                if A[k] < A[min_index]:
+            for k in range(i + 1, len(mas)):
+                if mas[k] < mas[min_index]:
                     min_index = k
-            A[i], A[min_index] = A[min_index], A[i]
-        return A
+            mas[i], mas[min_index] = mas[min_index], mas[i]
+        return mas
 
 
-# with open("sort_benchmark.txt") as file:
-#     data = [line.rstrip('\n\r') for line in file]
+# data = [123456, 12345, 123456789, "d", "b", "a", 1234567, "c", 12345678]
 
-data = [123456, 12345, 123456789, "password", "iloveyou", "princess", 1234567, "rockyou", 12345678]
+
+start = time.time()
+
+with open("sort_benchmark.txt") as file:
+   data = [line.rstrip('\n\r') for line in file]
+
 p = Sort()
 data = p.select_sort(data)
-print(data)
 
-# with open("output.txt", "w") as file:
-#     file.writelines("%s\n" % k for k in data)
+with open("output.txt", "w") as file:
+    file.writelines("%s\n" % k for k in data)
 
+end = time.time()
 
+print("Время выполнения -> ", end - start)
